@@ -1,5 +1,6 @@
 # Name: Vicky Yang
-# Project 2, Step 2 & 3
+# Project 2: Biomedical Data Analysis
+# Step 2 & 3
 
 
 import numpy as np
@@ -8,15 +9,17 @@ import matplotlib.pyplot as plt
 
 # FUNCTIONS
 def openckdfile():
-# This function opens and reads the training set and normalizes 
-# the value of the data.
+# This function opens and reads the training set.
 # This function does not take any arguments.
-# Returns three values: normalized glucose and hemoglobin values and 
-# classification.
+# Returns three values: glucose, hemoglobin and classification
     glucose, hemoglobin, classification = np.loadtxt('ckd.csv', delimiter=',', skiprows=1, unpack=True)
-#   Normalizing Data
-    glucose_scaled = (glucose - 70)/(490-70)
-    hemoglobin_scaled = (hemoglobin - 3.1)/(17.8-3.1)
+    return glucose, hemoglobin, classification
+
+def normalizeData(glucose, hemoglobin, classification):
+# This function normalizes the training set data.
+# Takes three arguments: raw values for glucose and hemoglobin and classification
+    glucose_scaled = (glucose - np.amin(glucose))/(np.amax(glucose)-np.amin(glucose))
+    hemoglobin_scaled = (hemoglobin - np.amin(hemoglobin))/(np.amax(hemoglobin)-np.amin(hemoglobin))
     return glucose_scaled, hemoglobin_scaled, classification
 
 def graphData(glucose, hemoglobin, classification):
@@ -26,8 +29,8 @@ def graphData(glucose, hemoglobin, classification):
 # and classification
 # No return value
     plt.figure()
-    plt.plot(hemoglobin[classification==1],glucose[classification==1], "k.", label = "Class 1")
-    plt.plot(hemoglobin[classification==0],glucose[classification==0], "r.", label = "Class 0")
+    plt.plot(hemoglobin[classification==1],glucose[classification==1], "k.", label = "CKD")
+    plt.plot(hemoglobin[classification==0],glucose[classification==0], "r.", label = "Normal")
     plt.title('Chronic Kidney Disease Training Set')
     plt.xlabel("Hemoglobin")
     plt.ylabel("Glucose")
@@ -70,10 +73,12 @@ def graphTestCase(new_glucose, new_hemoglobin, glucose, hemoglobin, classificiat
 # Takes five arguments: normalized glucose values, normalized hemoglobin values,
 # classification, the test case (new_hemoglobin and new_glucose)
 # No return value
+    raw_new_glucose = (new_glucose*(np.amax(glucose)-np.amin(glucose)))+(np.amin(glucose))
+    raw_new_hemoglobin = (new_hemoglobin*(np.amax(hemoglobin)-np.amin(hemoglobin)))+(np.amin(hemoglobin))
     plt.figure()
-    plt.plot(hemoglobin[classification==1],glucose[classification==1], "k.", label = "Class 1")
-    plt.plot(hemoglobin[classification==0],glucose[classification==0], "r.", label = "Class 0")
-    plt.plot(new_hemoglobin, new_glucose,'g.', markersize=10)
+    plt.plot(hemoglobin[classification==1],glucose[classification==1], "k.", label = "CKD")
+    plt.plot(hemoglobin[classification==0],glucose[classification==0], "r.", label = "Normal")
+    plt.plot(raw_new_hemoglobin, raw_new_glucose,'g.', markersize=10)
     plt.title('Chronic Kidney Disease Nearest Neighbor Classifer')
     plt.xlabel("Hemoglobin")
     plt.ylabel("Glucose")
@@ -105,8 +110,9 @@ def kNearestNeighborClassifier(k, new_glucose, new_hemoglobin, glucose, hemoglob
 
 # MAIN SCRIPT
 
-glucose_scaled, hemoglobin_scaled, classification = openckdfile()
+glucose, hemoglobin, classification = openckdfile()
+glucose_scaled, hemoglobin_scaled, classification = normalizeData(glucose, hemoglobin, classification)
 new_hemoglobin, new_glucose = createTestCase()
-graphData(glucose_scaled, hemoglobin_scaled, classification)
-graphTestCase(new_glucose, new_hemoglobin, glucose_scaled, hemoglobin_scaled, classification)
+graphData(glucose, hemoglobin, classification)
+graphTestCase(new_glucose, new_hemoglobin, glucose, hemoglobin, classification)
 k_classification = kNearestNeighborClassifier(3, new_glucose, new_hemoglobin, glucose_scaled, hemoglobin_scaled, classification)
