@@ -57,8 +57,8 @@ def calculateDistanceArray(new_glucose, new_hemoglobin, glucose, hemoglobin):
 
 def nearestNeighborClassifier(new_glucose, new_hemoglobin, glucose, hemoglobin, classification):
 # This function calls the calculateDistanceArray function and finds the index of
-# the minimum distance in the array (implementing nearest neighbor classifer). 
-# The class of the nearest point is then found.
+# the minimum distance in the array (implementing nearest neighbor classifer)
+# to find the class of the nearest point.
 # Takes five arguments: new_glucose adn new_hemoglobin (the test case), normalized
 # values for glucose and hemoglobin from training set, and the classifications
 # Returns the classification of the nearest point to test case (0 or 1)
@@ -89,7 +89,7 @@ def kNearestNeighborClassifier(k, new_glucose, new_hemoglobin, glucose, hemoglob
 # This function implements the k-nearest neighbor classifer by calling on the 
 # calculateDistanceArray function and sorting the indices of that array. k indices
 # are used to classify the test case.
-# Takes sic arguments: k (number of points to classify with), test case (new_glucose
+# Takes six arguments: k (number of points to classify with), test case (new_glucose
 # and new_hemoglobin), normalized values of glucose and hemoglobin, and classifcation
 # Returns the classification of the test case
     distances = calculateDistanceArray(new_glucose, new_hemoglobin, glucose_scaled, hemoglobin_scaled)
