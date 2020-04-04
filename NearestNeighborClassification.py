@@ -78,7 +78,11 @@ def graphTestCase(new_glucose, new_hemoglobin, glucose, hemoglobin, classificiat
     plt.figure()
     plt.plot(hemoglobin[classification==1],glucose[classification==1], "k.", label = "CKD")
     plt.plot(hemoglobin[classification==0],glucose[classification==0], "r.", label = "Normal")
-    plt.plot(raw_new_hemoglobin, raw_new_glucose,'g.', markersize=10)
+    nearest_class = nearestNeighborClassifier(new_glucose, new_hemoglobin, glucose_scaled, hemoglobin_scaled, classification)
+    if nearest_class == 0:
+        plt.plot(raw_new_hemoglobin, raw_new_glucose,'ro', markersize=10)
+    elif nearest_class == 1:
+        plt.plot(raw_new_hemoglobin, raw_new_glucose,'ko', markersize=10)
     plt.title('Chronic Kidney Disease Nearest Neighbor Classifer')
     plt.xlabel("Hemoglobin")
     plt.ylabel("Glucose")
@@ -104,9 +108,9 @@ def kNearestNeighborClassifier(k, new_glucose, new_hemoglobin, glucose, hemoglob
         elif i == 0:
             not_ckd = not_ckd + 1
     if ckd > not_ckd:
-        return 'CKD'
+        return 1
     else: 
-        return 'not CKD'
+        return 0
 
 # MAIN SCRIPT
 
@@ -114,5 +118,6 @@ glucose, hemoglobin, classification = openckdfile()
 glucose_scaled, hemoglobin_scaled, classification = normalizeData(glucose, hemoglobin, classification)
 new_hemoglobin, new_glucose = createTestCase()
 graphData(glucose, hemoglobin, classification)
+x = nearestNeighborClassifier(new_glucose, new_hemoglobin, glucose_scaled, hemoglobin_scaled, classification)
 graphTestCase(new_glucose, new_hemoglobin, glucose, hemoglobin, classification)
 k_classification = kNearestNeighborClassifier(3, new_glucose, new_hemoglobin, glucose_scaled, hemoglobin_scaled, classification)
