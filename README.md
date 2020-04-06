@@ -80,7 +80,7 @@ graphData(k, hemoglobin, glucose, min_indices_array, centroid_array)
     Takes five arguments: number of centroids, raw values for hemoglobin and glucose, min_indices_array, and the centroid_array
     No return values
 update_centroid(k, centroid_array, min_indices_array, hemoglobin, glucose)
-    The function takes the mean of add the assigned points to each centroid and makes the means the centroid point.
+    The function takes the mean of the assigned points to each centroid and makes the means the updated centroid point.
     Takes five arguments: number of centorids, centroid_array, min_indices_array, and the normalized hemoglobin and glucose values
     Returns the updated centroid_array
 

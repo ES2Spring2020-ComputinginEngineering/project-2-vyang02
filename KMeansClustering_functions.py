@@ -65,8 +65,8 @@ def graphData(k, hemoglobin, glucose, min_indices_array, centroid_array):
     plt.show()
         
 def update_centroid(k, centroid_array, min_indices_array, hemoglobin, glucose):
-# The function takes the mean of add the assigned points to each centroid and
-# makes the means the centroid point.
+# The function takes the mean of the assigned points to each centroid and
+# makes the means the updated centroid point.
 # Takes five arguments: number of centorids, centroid_array, min_indices_array,
 # and the normalized hemoglobin and glucose values
 # returns the updated centroid_array
@@ -76,22 +76,24 @@ def update_centroid(k, centroid_array, min_indices_array, hemoglobin, glucose):
         ymean = np.mean(glucose[min_indices_array==i])
         mean_array[i,0] = xmean
         mean_array[i,1] = ymean
-        mean_array = centroid_array
+        centroid_array = mean_array
     return centroid_array
 
-def iterate(iterations, k, distance_array, hemoglobin_scaled, glucose_scaled, hemoglobin, glucose):
+def iterate(iterations, k, centroid_array, distance_array, hemoglobin_scaled, glucose_scaled, hemoglobin, glucose):
     for i in range(iterations-1):
-        min_indices_array = nearest_centroid_classification(k, distance_array, hemoglobin_scaled, glucose_scaled)
+        distance_array = calculate_distance_array(k, centroid_array, hemoglobin_scaled, glucose_scaled)
+        min_indices_array = nearest_centroid_classification(k, distance_array)
         graphData(k, hemoglobin, glucose, min_indices_array, centroid_array)
-        update = update_centroid(k, centroid_array, min_indices_array, hemoglobin_scaled, glucose_scaled)
-        print(update)
-    return update
+        centroid_array = update_centroid(k, centroid_array, min_indices_array, hemoglobin_scaled, glucose_scaled)
+        print(centroid_array)
+    return centroid_array
 
 glucose, hemoglobin, classification = openckdfile()
 glucose_scaled, hemoglobin_scaled, classification = normalizeData(glucose, hemoglobin, classification)
 centroid_array = select_random_centroid(2)
+print(centroid_array)
 distance_array = calculate_distance_array(2, centroid_array, hemoglobin_scaled, glucose_scaled)
-min_indices_array = nearest_centroid_classification(2, distance_array, hemoglobin_scaled, glucose_scaled)
+min_indices_array = nearest_centroid_classification(2, distance_array)
 mean_array = update_centroid(2,centroid_array, min_indices_array, hemoglobin_scaled, glucose_scaled)
-#graphData(2, hemoglobin, glucose, min_indices_array, centroid_array)
-#final_centroid = iterate(10, 2, distance_array, hemoglobin_scaled, glucose_scaled, hemoglobin, glucose)
+graphData(2, hemoglobin, glucose, min_indices_array, centroid_array)
+final_centroid = iterate(10, 2, centroid_array, distance_array, hemoglobin_scaled, glucose_scaled, hemoglobin, glucose)
