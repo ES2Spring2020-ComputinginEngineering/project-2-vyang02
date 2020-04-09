@@ -15,28 +15,34 @@ openckdfile()
     This function opens and reads the training set.
     This function does not take any arguments.
     Returns three values: glucose, hemoglobin and classification
+
 normalizeData(glucose, hemoglobin, classification)
     This function normalizes the training set data.
     Takes three arguments: raw values for glucose and hemoglobin and classification
     Returns the normalized glucose and hemoglobin values
+    
 graphData(glucose, hemoglobin, classification)
     This function graphs the Chronic Kidney Disease training set with glucose on the y-axis and the hemoglobin on the x-axis.
     Takes three arguments: normalized glucose values, normalized hemoglobin values and classification
     No return value
+    
 createTestCase()
     This function creates a test case by generating two random numbers between 0 and 1 with one for glucose and the other for hemoglobin.
     There are no arguments.
     The return values are the test case (new_hemoglobin and new_glucose)
+    
 calculateDistanceArray(new_glucose, new_hemoglobin, glucose, hemoglobin)
     This function calculates the distance between the test case and all the other points in the training set and forms a distance array.
     Takes four arguments: new_glucose and new_hemoglobin (the test case), normalized values for glucose and hemoglobin from the training set
     Returns the distance array
+    
 nearestNeighborClassifier(new_glucose, new_hemoglobin, glucose, hemoglobin, classification)
     This function calls the calculateDistanceArray function and finds the index of the minimum distance in the array (implementing nearest 
     neighbor classifier) to find the class of the nearest point.
     Takes five arguments: new_glucose and new_hemoglobin (the test case), normalized values for glucose and hemoglobin from training set, 
     and the classifications
     Returns the classification of the nearest point to test case (0 or 1)
+    
 graphTestCase(new_glucose, new_hemoglobin, glucose, hemoglobin, classification)
     This function graphs the training set along with the test case.
     Takes five arguments: normalized glucose values, normalized hemoglobin values, classification, the test case (new_hemoglobin and 
@@ -60,30 +66,37 @@ openckdfile() function
     This function opens and reads the training set.
     This function does not take any arguments.
     Returns three values: glucose, hemoglobin and classification
+    
 normalizeData(glucose, hemoglobin, classification)
     This function normalizes the training set data.
     Takes three arguments: raw values for glucose and hemoglobin and classification
     Returns three values: the normalized values for glucose and hemoglobin along with the classification
+    
 select_random_centroid(k)
     This function generates k number of centroids for a set of data.
     Takes the one argument k (number of centroids)
     Returns k x k array with the centroid points
+    
 calculate_distance_array(k, centroid_array, hemoglobin, glucose)
     The function calculates the distance between all the points and the centroid points.
     Takes four arguments: k(number of centroids), centroid array, normalized values for hemoglobin and glucose
     Returns the calculated distance_array
+    
 nearest_centroid_classification(k, distance_array)
     The function takes the distance array and sorts the array by its indices.
     Takes four arguments: number of centroids and the distance array
     Returns an array of indices of the minimum distance
+    
 graphData(k, hemoglobin, glucose, min_indices_array, centroid_array)
     The function graphs the assignment of data with their centroids (unnormalized the centroids)
     Takes five arguments: number of centroids, raw values for hemoglobin and glucose, min_indices_array, and the centroid_array
     No return values
+    
 update_centroid(k, centroid_array, min_indices_array, hemoglobin, glucose)
     The function takes the mean of the assigned points to each centroid and makes the means the updated centroid point.
     Takes five arguments: number of centroids, centroid_array, min_indices_array, and the normalized hemoglobin and glucose values
     Returns the updated centroid_array
+    
 iterate(iterations, k, centroid_array, distance_array, hemoglobin_scaled, glucose_scaled, hemoglobin, glucose)
     The function iterates the updating of the centroids by using the updated centroid values to update the distance array which updates the min_indices_array and cycles through.
     Takes eight arguments: number of iterations, k, centroid array, distance array, and the scaled and raw values for glucose and hemoglobin
