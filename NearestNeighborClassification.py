@@ -18,6 +18,7 @@ def openckdfile():
 def normalizeData(glucose, hemoglobin, classification):
 # This function normalizes the training set data.
 # Takes three arguments: raw values for glucose and hemoglobin and classification
+# Returns the normalized values of glucose and hemoglobin
     glucose_scaled = (glucose - np.amin(glucose))/(np.amax(glucose)-np.amin(glucose))
     hemoglobin_scaled = (hemoglobin - np.amin(hemoglobin))/(np.amax(hemoglobin)-np.amin(hemoglobin))
     return glucose_scaled, hemoglobin_scaled, classification
@@ -98,7 +99,7 @@ def kNearestNeighborClassifier(k, new_glucose, new_hemoglobin, glucose, hemoglob
 # Returns the classification of the test case
     distances = calculateDistanceArray(new_glucose, new_hemoglobin, glucose_scaled, hemoglobin_scaled)
     sorted_indices = np.argsort(distances)
-    k_indices = sorted_indices[:k]
+    k_indices = sorted_indices[:k] # k has to be an odd number
     k_classifications = classification[k_indices]
     ckd = 0
     not_ckd = 0
@@ -118,6 +119,6 @@ glucose, hemoglobin, classification = openckdfile()
 glucose_scaled, hemoglobin_scaled, classification = normalizeData(glucose, hemoglobin, classification)
 new_hemoglobin, new_glucose = createTestCase()
 graphData(glucose, hemoglobin, classification)
-x = nearestNeighborClassifier(new_glucose, new_hemoglobin, glucose_scaled, hemoglobin_scaled, classification)
+nearest_neighbor_classification = nearestNeighborClassifier(new_glucose, new_hemoglobin, glucose_scaled, hemoglobin_scaled, classification)
 graphTestCase(new_glucose, new_hemoglobin, glucose, hemoglobin, classification)
-k_classification = kNearestNeighborClassifier(3, new_glucose, new_hemoglobin, glucose_scaled, hemoglobin_scaled, classification)
+k_nearest_neighbor_classification = kNearestNeighborClassifier(3, new_glucose, new_hemoglobin, glucose_scaled, hemoglobin_scaled, classification)

@@ -40,13 +40,13 @@ def calculate_distance_array(k, centroid_array, hemoglobin, glucose):
 
 def nearest_centroid_classification(k, distance_array):
 # The function takes the distance array and sorts the array by its indices.
-# Takes four arguments: number of centorids and the distance array
+# Takes four arguments: number of centroids and the distance array
 # Returns an array of indices of the minimum distance
     min_indices_array = np.argmin(distance_array, axis=1)
     return min_indices_array
 
 def graphData(k, hemoglobin, glucose, min_indices_array, centroid_array):
-# The function graphs the assignment of data with their centroids (unnormalizes
+# The function graphs the assignment of data with their centroids (unnormalized
 # the centroids)
 # Takes five arguments: number of centroids, raw values for hemoglobin and glucose,
 # min_indices_array, and the centroid_array
@@ -57,7 +57,7 @@ def graphData(k, hemoglobin, glucose, min_indices_array, centroid_array):
         unscaled_centroid_hemoglobin = (centroid_array[i, 0])*(np.amax(hemoglobin)-np.amin(hemoglobin)) + (np.amin(hemoglobin))
         unscaled_centroid_glucose = (centroid_array[i, 1])*(np.amax(glucose)-np.amin(glucose)) + (np.amin(glucose))
         plt.plot(hemoglobin[min_indices_array==i],glucose[min_indices_array==i], ".", label="Class" + ' ' + str(i), color=our_color)
-        plt.plot(unscaled_centroid_hemoglobin, unscaled_centroid_glucose, "x", color=our_color)
+        plt.plot(unscaled_centroid_hemoglobin, unscaled_centroid_glucose, "x", markersize = 10, color=our_color)
     plt.title('Chronic Kidney Disease Training Set')
     plt.xlabel("Hemoglobin")
     plt.ylabel("Glucose")
@@ -67,7 +67,7 @@ def graphData(k, hemoglobin, glucose, min_indices_array, centroid_array):
 def update_centroid(k, centroid_array, min_indices_array, hemoglobin, glucose):
 # The function takes the mean of the assigned points to each centroid and
 # makes the means the updated centroid point.
-# Takes five arguments: number of centorids, centroid_array, min_indices_array,
+# Takes five arguments: number of centroids, centroid_array, min_indices_array,
 # and the normalized hemoglobin and glucose values
 # returns the updated centroid_array
     mean_array = np.zeros((k,2))
@@ -80,20 +80,15 @@ def update_centroid(k, centroid_array, min_indices_array, hemoglobin, glucose):
     return centroid_array
 
 def iterate(iterations, k, centroid_array, distance_array, hemoglobin_scaled, glucose_scaled, hemoglobin, glucose):
-    for i in range(iterations-1):
+# The function iterates the updating of the centroids by using the updated centroid
+# values to update the distance array which updates the min_indices_array and 
+# cycles through.
+# Takes eight arguments: number of iterations, k, centroid array, distance array,
+# and the scaled and raw values for glucose and hemoglobin
+# Returns the updated centroid value
+    for i in range(iterations):
         distance_array = calculate_distance_array(k, centroid_array, hemoglobin_scaled, glucose_scaled)
         min_indices_array = nearest_centroid_classification(k, distance_array)
-        graphData(k, hemoglobin, glucose, min_indices_array, centroid_array)
         centroid_array = update_centroid(k, centroid_array, min_indices_array, hemoglobin_scaled, glucose_scaled)
-        print(centroid_array)
+    graphData(k, hemoglobin, glucose, min_indices_array, centroid_array)
     return centroid_array
-
-glucose, hemoglobin, classification = openckdfile()
-glucose_scaled, hemoglobin_scaled, classification = normalizeData(glucose, hemoglobin, classification)
-centroid_array = select_random_centroid(2)
-print(centroid_array)
-distance_array = calculate_distance_array(2, centroid_array, hemoglobin_scaled, glucose_scaled)
-min_indices_array = nearest_centroid_classification(2, distance_array)
-mean_array = update_centroid(2,centroid_array, min_indices_array, hemoglobin_scaled, glucose_scaled)
-graphData(2, hemoglobin, glucose, min_indices_array, centroid_array)
-final_centroid = iterate(10, 2, centroid_array, distance_array, hemoglobin_scaled, glucose_scaled, hemoglobin, glucose)
