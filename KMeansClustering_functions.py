@@ -20,6 +20,7 @@ def normalizeData(glucose, hemoglobin, classification):
     hemoglobin_scaled = (hemoglobin - np.amin(hemoglobin))/(np.amax(hemoglobin)-np.amin(hemoglobin))
     return glucose_scaled, hemoglobin_scaled, classification
 
+#STEP 1: SELECT
 def select_random_centroid(k):
 # This function generates k number of centroids for a set of data.
 # Takes the one argument k (number of centroids)
@@ -27,6 +28,7 @@ def select_random_centroid(k):
     centroid_array = np.random.rand(k,2)
     return centroid_array
 
+# STEP 2: ASSIGNMENT
 def calculate_distance_array(k, centroid_array, hemoglobin, glucose):
 # The function calculates the distance between all the points and the centroid points.
 # Takes four arguments: k(number of centroids), centroid array, normalized values
@@ -63,7 +65,8 @@ def graphData(k, hemoglobin, glucose, min_indices_array, centroid_array):
     plt.ylabel("Glucose")
     plt.legend()
     plt.show()
-        
+    
+# STEP 3: UPDATE   
 def update_centroid(k, centroid_array, min_indices_array, hemoglobin, glucose):
 # The function takes the mean of the assigned points to each centroid and
 # makes the means the updated centroid point.
@@ -79,6 +82,7 @@ def update_centroid(k, centroid_array, min_indices_array, hemoglobin, glucose):
         centroid_array = mean_array
     return centroid_array
 
+# STEP 4: ITERATE
 def iterate(iterations, k, centroid_array, distance_array, hemoglobin_scaled, glucose_scaled, hemoglobin, glucose):
 # The function iterates the updating of the centroids by using the updated centroid
 # values to update the distance array which updates the min_indices_array and 
