@@ -1,15 +1,14 @@
-Name: Vicky Yang
-ES2: Project 2 (Biomedical Data Analysis)
+# Project 2 (Biomedical Data Analysis)
 
-FILES
+## FILES
 1. NearestNeighborClassification.py
 2. KMeansClustering_functions.py
 3. KMeansClustering_driver.py
 4. ckd.csv
 
-File 1: Algorithms and their functions
+### File 1: Algorithms and their functions
 
-(1) Nearest Neighbor Classification Functions
+#### (1) Nearest Neighbor Classification Functions
 
 openckdfile()
     This function opens and reads the training set.
@@ -49,7 +48,7 @@ graphTestCase(new_glucose, new_hemoglobin, glucose, hemoglobin, classification)
     new_glucose)
     No return value
   
-(2) K-Nearest Classification Function
+#### (2) K-Nearest Classification Function
 
 kNearestNeighborClassifier(k, new_glucose, new_hemoglobin, glucose, hemoglobin, classification)
     This function implements the k-nearest neighbor classifier by calling on the calculateDistanceArray function and sorting the indices of 
@@ -58,9 +57,9 @@ kNearestNeighborClassifier(k, new_glucose, new_hemoglobin, glucose, hemoglobin, 
     and hemoglobin, and classification
     Returns the classification of the test case (0 or 1)
   
-(3) K-Means Clustering
+#### (3) K-Means Clustering
 
-File 2: Functions for File 3
+### File 2: Functions for File 3
 
 openckdfile() function
     This function opens and reads the training set.
@@ -102,9 +101,9 @@ iterate(iterations, k, centroid_array, distance_array, hemoglobin_scaled, glucos
     Takes eight arguments: number of iterations, k, centroid array, distance array, and the scaled and raw values for glucose and hemoglobin
     Returns the updated centroid values
 
-File 3: Using the data from File 4 on Chronic Kidney Disease to implement K-Means Clustering Algorithm
+### File 3: Using the data from File 4 on Chronic Kidney Disease to implement K-Means Clustering Algorithm
         Uses the functions from File 2 to carry out K-Means Clustering
 
-File 4: The training set for the biomedical data analysis on Chronic Kidney Disease.
+### File 4: The training set for the biomedical data analysis on Chronic Kidney Disease.
 
 **This project is based on an example and dataset from Data Science course developed at Berkeley (Data8.org).
